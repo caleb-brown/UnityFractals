@@ -4,7 +4,7 @@
 		_Zoom("Zoom", Vector) = (2, 2, 1, 1)
 		_Pan("Pan", Vector) = (1.2, 0, 1, 1)
 		_Aspect("Aspect Ratio", Float) = .575
-		_Iterations("Iterations", Range(1, 2048)) = 20
+		_Iterations("Iterations", Range(1, 4096)) = 20
 	}
 	SubShader {
 		Tags { "RenderType"="Opaque" }

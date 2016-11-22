@@ -3,14 +3,33 @@ using System.Collections;
 
 public class PinchZoom : MonoBehaviour
 {
+#if UNITY_IOS || UNITY_ANDROID
     public float perspectiveZoomSpeed = 0.5f;
     public float orthoZoomSpeed = 0.5f;
+#endif
+#if UNITY_STANDALONE || UNITY_WEBGL
+    public float ZoomSpeed = 0.5f;
+#endif
+
+    public GameObject quad;
     // public Camera camera;
+
+    Renderer renderer;
+    Material mat;
+    float zoomCounter;
+
+    void Start()
+    {
+        renderer = quad.GetComponent<Renderer>();
+        mat = renderer.material;
+    }
     
 	// Update is called once per frame
 	void Update ()
     {
-	    // If there are two touches on the device
+#if UNITY_IOS || UNITY_ANDROID
+
+        // If there are two touches on the device
         if (Input.touchCount == 2)
         {
             // Store both touches
@@ -51,8 +70,26 @@ public class PinchZoom : MonoBehaviour
             }
             */
 
-            
+            mat.SetVector("_Zoom", new Vector4(deltaMagnitudeDiff * orthoZoomSpeed, deltaMagnitudeDiff * orthoZoomSpeed, 1, 1));
 
-        }   
-	}
+
+        }
+
+#endif
+#if UNITY_STANDALONE || UNITY_WEBGL
+
+        if (Input.GetAxis("Mouse ScrollWheel") < 0)
+        {
+            Debug.Log("LessThan");
+            mat.SetVector("_Zoom", new Vector4(mat.GetVector("_Zoom").x * -ZoomSpeed, mat.GetVector("_Zoom").x * -ZoomSpeed, 1, 1));
+        }
+        if (Input.GetAxis("Mouse ScrollWheel") > 0)
+        {
+            Debug.Log("GreaterThan");
+            mat.SetVector("_Zoom", new Vector4(mat.GetVector("_Zoom").x * ZoomSpeed, mat.GetVector("_Zoom").x * ZoomSpeed, 1, 1));
+        }
+        Debug.Log(string.Format("GetVector(\"_Zoom\") = {0}", mat.GetVector("_Zoom")));
+#endif
+
+    }
 }
