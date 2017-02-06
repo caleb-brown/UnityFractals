@@ -1,21 +1,21 @@
-﻿Shader "Custom/Mandelbrot" {
+﻿Shader "Fractal/Mandelbrot" {
 	Properties {
 		_MainTex ("Albedo (RGB)", 2D) = "white" {}
 		_Zoom("Zoom", Vector) = (2, 2, 1, 1)
 		_Pan("Pan", Vector) = (1.2, 0, 1, 1)
 		_Aspect("Aspect Ratio", Float) = .575
-		_Iterations("Iterations", Range(1, 4096)) = 20
+		_Iterations("Iterations", Range(1, 2048)) = 20
 	}
 	SubShader {
 		Tags { "RenderType"="Opaque" }
 		LOD 200
-		
+
 		CGPROGRAM
 		// Physically based Standard lighting model, and enable shadows on all light types
 		#pragma surface surf Standard fullforwardshadows
 
 		// Use shader model 3.0 target, to get nicer looking lighting
-		#pragma target 3.0
+		#pragma target 4.0
 
 		sampler2D _MainTex;
 
@@ -28,7 +28,7 @@
 		float _Iterations;
 		float _Aspect;
 
-		void surf (Input IN, inout SurfaceOutputStandard o) {
+		void surf(Input IN, inout SurfaceOutputStandard o) {
 			// Albedo comes from a texture tinted by color
 			// fixed4 c = tex2D (_MainTex, IN.uv_MainTex) * _Color;
 
